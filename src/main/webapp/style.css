@@ -1,0 +1,23 @@
+body {
+	text-align:center;
+	border:solid;
+}
+input{
+	margin-right: 4%;
+}
+#soloida, #idavuelta{
+	margin-right: 0.5%;
+	margin-left:2%;
+}
+form{
+	border: 3.5px dashed yellow;
+	margin: 2% 10%;
+	padding: 2%;
+}
+h4{
+	font-size:120%;
+}
+#soloida:checked + #fechavuelta{
+		display:none;
+		font-style:200%;
+	}

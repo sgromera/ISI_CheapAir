@@ -2,19 +2,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>Hello App Engine</title>
+    <title>CheapAir - Página Principal</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
   </head>
 
   <body>
-    <h1>Aquí he hecho un commit</h1>
-  
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href='/hello'>The servlet</a></td>
-      </tr>
-    </table>
+  	
+  	<!-- Cabecera de la página -->
+ 	<header>
+ 		<h1>CheapAir</h1>
+ 	</header>
+ 	
+ 	<h2>
+ 		Búsqueda de vuelo
+ 	</h2>
+ 	<!-- Formulario de búsqueda de vuelo -->
+ 	<form method="post">
+ 		<label for="origen">Origen</label>
+ 		<input type="text" id="origen" name="origen"/>
+ 		
+ 		<label for="destino">Destino</label>
+ 		<input type="text" id="destino" name="destino"/>
+ 	
+ 		<br>
+ 		
+ 		<input type="radio" id="soloida" name="tipoviaje" value="soloida" checked/>Sólo Ida
+ 		<input type="radio" id="idavuelta" name="tipoviaje" value="idavuelta"/>Ida y Vuelta		
+ 		
+ 		<br>
+ 		
+ 		<label for="fechaida">Fecha de Salida</label>
+ 		<input type="date" id="fechaida" name="fechaida"/>
+ 		
+ 		<label for="fechavuelta">Fecha de Vuelta</label>
+ 		<input type="date" id="fechavuelta" name="fechavuelta"/>
+ 		
+ 		<br>
+ 		
+ 		<input type="submit" id="enviar" value="Buscar Vuelos"/>
+ 		<input type="reset" id="reset" value="Resetear Búsqueda"/>
+ 	</form>
+ 	
+ 	<!-- Pie de página con nuestros nombres -->
+ 	<footer>
+ 		<h4>Proyecto hecho por: Alberto Silvestre Montes Linares · Sergio Romera Guzmán</h4>
+ 	</footer>	
+
   </body>
 </html>
