@@ -1,23 +1,33 @@
 body {
+	background: url('avion.jpg') no-repeat;
+	background-size: 100% 100%;
 	text-align:center;
-	border:solid;
 }
+
+header {
+	margin:0 auto;
+}
+header h1 {color:lightgreen; text-align:center;}
+
+#search {color:yellow;}
+
 input{
-	margin-right: 4%;
+	margin-right:1.5%;
+	margin-bottom:2%;
 }
+
 #soloida, #idavuelta{
 	margin-right: 0.5%;
 	margin-left:2%;
 }
+
 form{
 	border: 3.5px dashed yellow;
-	margin: 2% 10%;
+	margin: 0.5% auto;
 	padding: 2%;
+	text-align:center;
+	width:80%;
 }
-h4{
-	font-size:120%;
-}
-#soloida:checked + #fechavuelta{
-		display:none;
-		font-style:200%;
-	}
+
+footer {margin-top:5%; color:darkorange; font-size:120%;}
+
