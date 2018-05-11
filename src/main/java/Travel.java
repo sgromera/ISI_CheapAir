@@ -3,10 +3,12 @@ import java.util.Date;
 
 public class Travel {
 	private Date fechaSalida, fechaLlegada;
-	float precio;
-	int duracion; // duracion del viaje en minutos
-	String url;
-	ArrayList<Flight> vuelos;
+	private float precio;
+	private String duracion; 
+	private String url;
+	private ArrayList<Flight> vuelos;
+	private String escala;
+	private String compania;
 	
 	/*
 	 * Constructor usado si vamos a meter más de un vuelo
@@ -15,9 +17,9 @@ public class Travel {
 	 * 
 	 * */
 	public Travel() {
-		fechaSalida = null;
-		fechaLlegada = null;
-		duracion = 0;
+		fechaSalida = new Date();
+		fechaLlegada = new Date();
+		precio = 0;
 		vuelos = new ArrayList<Flight>();
 	}
 	
@@ -78,7 +80,7 @@ public class Travel {
 		return this.url;
 	}
 	
-	public void setDuracion(int duracion) {
+	public void setDuracion(String duracion) {
 		this.duracion = duracion;
 	}
 	
