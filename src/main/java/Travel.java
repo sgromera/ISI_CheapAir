@@ -30,9 +30,9 @@ public class Travel {
 	 * */
 	public Travel(Flight Vuelo, float precio) {
 		vuelos = new ArrayList<Flight>();
+		vuelos.add(Vuelo);
 		this.fechaSalida = Vuelo.getFechaSalida();
 		this.fechaLlegada = Vuelo.getFechaLlegada();
-		this.duracion = Vuelo.getDuracion();
 		this.precio = precio;
 	}
 	
@@ -48,7 +48,6 @@ public class Travel {
 			this.vuelos.add(vuelo);
 			this.fechaSalida = vuelo.getFechaSalida();
 			this.fechaLlegada = vuelo.getFechaLlegada();
-			this.duracion = vuelo.getDuracion();			
 		}
 		else if(vuelo.getFechaSalida().after(this.fechaLlegada)) {
 			this.vuelos.add(vuelo);
@@ -87,4 +86,13 @@ public class Travel {
 	public ArrayList<Flight> getVuelos(){
 		return this.vuelos;
 	}
+	
+	public void setCompania(String compania) {
+		this.compania = compania;
+	}
+	
+	public String getCompania() {
+		return this.compania;
+	}
+
 }

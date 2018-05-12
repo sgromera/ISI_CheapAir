@@ -2,7 +2,6 @@ import java.util.Date;
 
 public class Flight {
 	private Date fechaSalida, fechaLlegada;
-	private String duracion; 
 	private String codAirOrigen, codAirDestino;
 	
 	public Flight(Date fechaSalida, Date fechaLlegada) {
@@ -24,14 +23,6 @@ public class Flight {
 	
 	public Date getFechaLlegada() {
 		return this.fechaLlegada;
-	}
-	
-	public void setDuracion(String duracion) {
-		this.duracion = duracion;
-	}
-	
-	public String getDuracion() {
-		return this.duracion;
 	}
 	
 	public void setCodAirOrigen(String cod) {
