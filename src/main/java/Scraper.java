@@ -163,8 +163,8 @@ public class Scraper {
 								// Fecha-Hora Llegada
 								String [] hora_llegada = filas1.get(i).getElementsByClass("content emphasize").get(1).text().split(" ");
 								String fecha_llegada;
-								if(ida) fecha_llegada = dia_ida + "/" + mes_ida + "/" + anio_ida + " " + hora_llegada[1];
-								else fecha_llegada = dia_vuelta + "/" + mes_vuelta + "/" + anio_vuelta + " " + hora_llegada[1];
+								if(ida) fecha_llegada = dia_ida + "/" + mes_ida + "/" + anio_ida + " " + hora_llegada[0];
+								else fecha_llegada = dia_vuelta + "/" + mes_vuelta + "/" + anio_vuelta + " " + hora_llegada[0];
 								Date fechaLlegada = new Date(fecha_llegada);
 								if(filas1.get(i).getElementsByClass("offsetdays").size() > 0) {
 									 Calendar cal = Calendar.getInstance(); 
@@ -182,21 +182,19 @@ public class Scraper {
 									ciudad_origen = filas21.get(vuelos_directo).getElementsByClass("content").get(0).text();
 									ciudad_destino = filas21.get(vuelos_directo).getElementsByClass("content").get(1).text();
 									duracion = filas21.get(vuelos_directo).getElementsByClass("content").get(2).text().split(":");
-									System.out.println("Origen " + ciudad_origen + " ,destino: " + ciudad_destino + " ,duracion: " + duracion[1]);
 									vuelos_directo++;
 								}
 								else {
 									ciudad_origen = filas2.get(vuelos_escala).getElementsByClass("content").get(0).text();
 									ciudad_destino = filas2.get(vuelos_escala).getElementsByClass("content").get(1).text();
 									duracion = filas2.get(vuelos_escala).getElementsByClass("content").get(2).text().split(":");
-									System.out.println("Origen " + ciudad_origen + " ,destino: " + ciudad_destino + " ,duracion: " + duracion[1]);
 									
 									Elements lugar_escala_transito = filas3.get(vuelos_escala).getElementsByClass("tooltipclick TooltipBoxTransit");
 									
 									if(lugar_escala_transito.size() > 0 ) { // Escala de tránsito
 										esc = lugar_escala_transito.get(0).text();
 									}
-									else { // Escala de transito
+									else { // Escala de noche
 										Elements lugar_escala_noche = filas3.get(vuelos_escala).getElementsByClass("tooltipclick TooltipBoxNightstop");
 										
 										if(lugar_escala_noche.size() > 0) { // Escala de noche
