@@ -167,7 +167,7 @@ public class Ryanair {
 	
 	private Travel getTravel(JSONObject obj) {
 		Date fechaSalida, fechaLlegada;
-		String codAirOrigen, codAirDestino, aux;
+		String codAirOrigen, codAirDestino, nameOrigen, countryNameOrigen, nameDestino, countryNameDestino, aux;
 		String[] auxdate;
 		float precio = 0;
 		
@@ -179,20 +179,22 @@ public class Ryanair {
 		aux = (String) pointer.get("arrivaleDate");
 		auxdate = aux.split("T");
 		fechaLlegada = new Date(auxdate[0]+" "+auxdate[1]);
+		nameDestino = (String) pointer.get("name");
+		countryNameDestino = (String) pointer.get("countryName");
 		
 		pointer = (JSONObject) obj.get("departureAirport");
 		codAirOrigen = (String) pointer.get("iataCode");
+		nameOrigen = (String) pointer.get("name");
+		countryNameOrigen = (String) pointer.get("countryName");
 		
 		pointer = (JSONObject) obj.get("price");
 		precio = (float) pointer.get("value");
 		
-		Flight f = new Flight(fechaSalida, fechaLlegada);
-		f.setCodAirOrigen(codAirOrigen);
-		f.setCodAirDestino(codAirDestino);
+		Airport origen = new Airport(codAirOrigen, nameOrigen, countryNameOrigen);
+		Airport destino = new Airport(codAirDestino, nameDestino, countryNameDestino);
+		Flight f = new Flight(fechaSalida, fechaLlegada, origen, destino);
 		
-		Travel t = new Travel(f, precio);
-		t.setUrl("www.ryanair.com");
-		t.setCompania("Ryanair");
+		Travel t = new Travel(f, precio, "www.ryanair.com", "Ryanair");
 		
 		return t;
 	}
