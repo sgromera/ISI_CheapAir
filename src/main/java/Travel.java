@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Travel {
@@ -9,6 +10,7 @@ public class Travel {
 	private ArrayList<Flight> vuelos;
 	private String escala;
 	private String compania;
+	private Airport origen,destino;
 	
 	/*
 	 * Constructor usado si vamos a meter más de un vuelo
@@ -16,11 +18,15 @@ public class Travel {
 	 * deben ir ordenados por fecha de salida
 	 * 
 	 * */
-	public Travel() {
-		fechaSalida = new Date();
-		fechaLlegada = new Date();
-		precio = 0;
-		vuelos = new ArrayList<Flight>();
+	public Travel(String url, String compania) {
+		this.fechaSalida = new Date();
+		this.fechaLlegada = new Date();
+		this.precio = 0;
+		this.vuelos = new ArrayList<Flight>();
+		this.url = url;
+		this.compania = compania;
+		this.origen = new Airport();
+		this.destino = new Airport();
 	}
 	
 	/*
@@ -28,12 +34,16 @@ public class Travel {
 	 * Si el viaje solo tiene un vuelo lo mejor es llamar a este contructor
 	 * con el único vuelo como argumento
 	 * */
-	public Travel(Flight Vuelo, float precio) {
+	public Travel(Flight Vuelo, float precio, String url, String compania) {
 		vuelos = new ArrayList<Flight>();
 		vuelos.add(Vuelo);
 		this.fechaSalida = Vuelo.getFechaSalida();
 		this.fechaLlegada = Vuelo.getFechaLlegada();
 		this.precio = precio;
+		this.url = url;
+		this.compania = compania;
+		this.origen = Vuelo.getOrigen();
+		this.destino = Vuelo.getDestino();
 	}
 	
 	/*
@@ -48,27 +58,52 @@ public class Travel {
 			this.vuelos.add(vuelo);
 			this.fechaSalida = vuelo.getFechaSalida();
 			this.fechaLlegada = vuelo.getFechaLlegada();
+			this.origen = vuelo.getOrigen();
+			this.destino = vuelo.getDestino();
 		}
 		else if(vuelo.getFechaSalida().after(this.fechaLlegada)) {
 			this.vuelos.add(vuelo);
 			this.fechaLlegada = vuelo.getFechaLlegada();
+			this.destino = vuelo.getDestino();
 		}
 	}
+	
+	private String calcularDuracionViaje() {
+		String diferencia = "";
+		
+		// Cojo las fechas
+		Calendar finicio = Calendar.getInstance();
+		finicio.setTime(this.fechaSalida);
+        
+		Calendar ffinal = Calendar.getInstance();
+        ffinal.setTime(this.fechaLlegada);
+        
+        // Paso las fechas a milisegundos
+        long milis_ini,milis_fin,diff;
+        
+        milis_ini = finicio.getTimeInMillis();
+        milis_fin = ffinal.getTimeInMillis();
+        diff = milis_fin - milis_ini;
+        
+        // calcular la diferencia en horas
+        long diffHoras = (diff / (60 * 60 * 1000));
+        
+        long diffMinutos = (diff / (60 * 1000));
+        long restominutos = diffMinutos%60;
+        
+        // Hago la diferencia
+        diferencia = Long.toString(diffHoras) + " h " + Long.toString(restominutos) + " min";
+
+        return diferencia;
+	}
+	
 	
 	public Date getFechaSalida() {
 		return this.fechaSalida;
 	}
 	
-	public void setFechaSalida(Date fechaSalida) {
-		this.fechaSalida = fechaSalida;
-	}
-	
 	public Date getFechaLlegada() {
 		return this.fechaLlegada;
-	}
-	
-	public void setFechaLlegada(Date fechaLlegada) {
-		this.fechaLlegada = fechaLlegada;
 	}
 	
 	public void setUrl(String url) {
@@ -83,6 +118,11 @@ public class Travel {
 		this.duracion = duracion;
 	}
 	
+	public String getDuracion() {
+		duracion = this.calcularDuracionViaje();
+		return this.duracion;
+	}
+
 	public ArrayList<Flight> getVuelos(){
 		return this.vuelos;
 	}
@@ -93,6 +133,14 @@ public class Travel {
 	
 	public String getCompania() {
 		return this.compania;
+	}
+	
+	public String getEscala() {
+		return this.escala;
+	}
+	
+	public float getPrecio() {
+		return this.precio;
 	}
 
 }

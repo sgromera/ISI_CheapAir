@@ -2,42 +2,29 @@ import java.util.Date;
 
 public class Flight {
 	private Date fechaSalida, fechaLlegada;
-	private String codAirOrigen, codAirDestino;
+	private Airport origen, destino;
 	
-	public Flight(Date fechaSalida, Date fechaLlegada) {
+	public Flight(Date fechaSalida, Date fechaLlegada, Airport origen, Airport destino) {
 		this.fechaSalida = fechaSalida;
 		this.fechaLlegada = fechaLlegada;
-	}
-	
-	public void setFechaSalida(Date fechaSalida) {
-		this.fechaSalida = fechaSalida;
+		this.origen = origen;
+		this.destino = destino;
 	}
 	
 	public Date getFechaSalida() {
 		return this.fechaSalida;
 	}
 	
-	public void setFechaLlegada(Date fechaLlegada) {
-		this.fechaLlegada = fechaLlegada;
-	}
-	
 	public Date getFechaLlegada() {
 		return this.fechaLlegada;
 	}
 	
-	public void setCodAirOrigen(String cod) {
-		this.codAirOrigen = cod;
-	}
-
-	public void setCodAirDestino(String cod) {
-		this.codAirDestino = cod;
-	}
-
-	public String getCodAirOrigen() {
-		return this.codAirOrigen;
+	public Airport getOrigen() {
+		return this.origen;
 	}
 	
-	public String getCodAirDestino() {
-		return this.codAirDestino;
+	public Airport getDestino() {
+		return this.destino;
 	}
+	
 }
