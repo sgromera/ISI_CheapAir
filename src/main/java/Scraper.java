@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 
 public class Scraper {
 	public static String url = "";
-	private String nadultos;
 	private Airport origen;
 	private Airport destino;
 	private String dia_ida;
@@ -26,29 +25,27 @@ public class Scraper {
 	/*
 	 *  Constructor que monta la URL de los vuelos de solo ida
 	 */
-	public Scraper(String nadultos, String codigoOrigen, String codigoDestino, String dia_ida,
+	public Scraper(String nadultos, Airport origen, Airport destino, String dia_ida,
 			String mes_ida, String anio_ida) {
-		this.nadultos = nadultos;
-		this.origen = Airport.getAirport(codigoOrigen);
-		this.destino = Airport.getAirport(codigoDestino);
+		this.origen = origen;
+		this.destino = destino;
 		this.dia_ida = dia_ida;
 		this.mes_ida = mes_ida;
 		this.anio_ida = anio_ida;
 		this.triptype = 1;
 		
-		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=" + nadultos + 
-		      "&CurrencyCode=EUR&D_City=" + origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" 
-			  + anio_ida + mes_ida + "&A_City=" + codigoDestino + "&TripType=1";
+		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=1&CurrencyCode=EUR&D_City=" + 
+			  origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" 
+			  + anio_ida + mes_ida + "&A_City=" + destino.getCodigo() + "&TripType=1";
 	}
 	
 	/*
 	 *  Constructor que monta la URL de los vuelos de ida y vuelta
 	 */
-	public Scraper(String nadultos, String codigoOrigen, String codigoDestino, String dia_ida,
+	public Scraper(String nadultos, Airport origen, Airport destino, String dia_ida,
 					String mes_ida, String anio_ida, String dia_vuelta, String mes_vuelta, String anio_vuelta) {
-		this.nadultos = nadultos;
-		this.origen = a.getAirport(codigoOrigen); // Aqui llamaría a un objeto de la clase Airports
-		this.destino = a.getAirport(codigoDestino);
+		this.origen = origen; 
+		this.destino = destino;
 		this.dia_ida = dia_ida;
 		this.mes_ida = mes_ida;
 		this.anio_ida = anio_ida;
@@ -57,10 +54,9 @@ public class Scraper {
 		this.anio_vuelta = mes_vuelta;
 		this.triptype = 2;
 		
-		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=" + nadultos + 
-		      "&CurrencyCode=EUR&D_City=" + origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" 
-			  + anio_ida + mes_ida + "&A_City=" + destino.getCodigo() + "&R_Day=" + dia_vuelta + "&R_Month=" +
-		      anio_vuelta + mes_vuelta + "&TripType=2";
+		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=1&CurrencyCode=EUR&D_City=" + 
+			  origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" + anio_ida + mes_ida + "&A_City=" + 
+			  destino.getCodigo() + "&R_Day=" + dia_vuelta + "&R_Month=" + anio_vuelta + mes_vuelta + "&TripType=2";
 	}
 	
 	/*
@@ -174,20 +170,17 @@ public class Scraper {
 								}
 								
 								String escala = filas1.get(i).getElementsByClass("content").get(2).text();
-								String [] duracion;
 								String ciudad_origen,ciudad_destino;
 								String esc = "";
 								
 								if(escala.contains("Directo")) {
 									ciudad_origen = filas21.get(vuelos_directo).getElementsByClass("content").get(0).text();
 									ciudad_destino = filas21.get(vuelos_directo).getElementsByClass("content").get(1).text();
-									duracion = filas21.get(vuelos_directo).getElementsByClass("content").get(2).text().split(":");
 									vuelos_directo++;
 								}
 								else {
 									ciudad_origen = filas2.get(vuelos_escala).getElementsByClass("content").get(0).text();
 									ciudad_destino = filas2.get(vuelos_escala).getElementsByClass("content").get(1).text();
-									duracion = filas2.get(vuelos_escala).getElementsByClass("content").get(2).text().split(":");
 									
 									Elements lugar_escala_transito = filas3.get(vuelos_escala).getElementsByClass("tooltipclick TooltipBoxTransit");
 									
@@ -205,8 +198,9 @@ public class Scraper {
 									vuelos_escala++;
 								}
 								
-								Flight f = new Flight(fechaSalida,fechaLlegada,this.origen,this.destino,price);
-								Travel t = new Travel(f,duracion[1],this.url,"Norweigan",esc);
+								Flight f = new Flight(fechaSalida,fechaLlegada,this.origen,this.destino);
+								Travel t = new Travel(f,price,this.url,"Norweigan");
+								t.setEscala(esc);
 								list.add(t);
 								
 							}
