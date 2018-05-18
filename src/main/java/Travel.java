@@ -135,6 +135,10 @@ public class Travel {
 		return this.compania;
 	}
 	
+	public void setEscala(String escala) {
+		this.escala = escala;
+	}
+	
 	public String getEscala() {
 		return this.escala;
 	}
