@@ -24,4 +24,10 @@ public class TravelResult {
 	public ArrayList<Travel> getTravelsVuelta(){
 		return this.viajesVuelta;
 	}
+	
+	public void Merge(TravelResult tr) {
+		for(Travel t: tr.viajesIda) this.addTravelIda(t);
+		for(Travel t: tr.viajesVuelta) this.addTravelVuelta(t);
+	}
+	
 }

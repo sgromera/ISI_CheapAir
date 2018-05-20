@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -152,19 +151,19 @@ public class Scraper {
 								// Fecha-Hora Salida
 								String hora_salida = filas1.get(i).getElementsByClass("content emphasize").get(0).text();
 								String fecha_salida;
-								if(ida) fecha_salida = dia_ida + "/" + mes_ida + "/" + anio_ida + " " + hora_salida;
-								else fecha_salida = dia_vuelta + "/" + mes_vuelta + "/" + anio_vuelta + " " + hora_salida;
+								if(ida) fecha_salida = mes_ida + "/" + dia_ida + "/" + anio_ida + " " + hora_salida;
+								else fecha_salida = mes_vuelta + "/" + dia_vuelta + "/" + anio_vuelta + " " + hora_salida;
 								Date fechaSalida = new Date(fecha_salida);
 								
 								// Fecha-Hora Llegada
 								String [] hora_llegada = filas1.get(i).getElementsByClass("content emphasize").get(1).text().split(" ");
 								String fecha_llegada;
-								if(ida) fecha_llegada = dia_ida + "/" + mes_ida + "/" + anio_ida + " " + hora_llegada[0];
-								else fecha_llegada = dia_vuelta + "/" + mes_vuelta + "/" + anio_vuelta + " " + hora_llegada[0];
+								if(ida) fecha_llegada = mes_ida + "/" + dia_ida + "/" + anio_ida + " " + hora_llegada[0];
+								else fecha_llegada = mes_vuelta + "/" + dia_vuelta + "/" + anio_vuelta + " " + hora_llegada[0];
 								Date fechaLlegada = new Date(fecha_llegada);
 								if(filas1.get(i).getElementsByClass("offsetdays").size() > 0) {
-									 Calendar cal = Calendar.getInstance(); 
-					                 cal.setTime(fechaLlegada);
+									 Calendar cal = Calendar.getInstance();
+									 cal.setTime(fechaLlegada);
 					                 cal.add(Calendar.DATE, 1);
 					                 fechaLlegada = cal.getTime();
 								}
@@ -198,9 +197,11 @@ public class Scraper {
 									vuelos_escala++;
 								}
 								
-								Flight f = new Flight(fechaSalida,fechaLlegada,this.origen,this.destino);
+								Flight f;
+								if(ida) f = new Flight(fechaSalida,fechaLlegada,this.origen,this.destino);
+								else f = new Flight(fechaSalida,fechaLlegada,this.destino,this.origen);
 								Travel t = new Travel(f,price,this.url,"Norweigan");
-								t.setEscala(esc);
+								if(esc.length() > 0) t.setEscala(esc);
 								list.add(t);
 								
 							}
