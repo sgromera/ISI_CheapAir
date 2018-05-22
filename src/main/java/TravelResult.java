@@ -29,6 +29,4 @@ public class TravelResult {
 		for(Travel t: tr.viajesIda) this.addTravelIda(t);
 		for(Travel t: tr.viajesVuelta) this.addTravelVuelta(t);
 	}
-	
-	// Hacer un método que ordene el array por precio menor
 }
