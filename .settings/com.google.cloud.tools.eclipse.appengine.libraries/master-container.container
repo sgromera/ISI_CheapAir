@@ -479,8 +479,8 @@
           "value": "1.9.63"
         },
         {
-          "name": "org.eclipse.jst.component.dependency",
-          "value": "/WEB-INF/lib"
+          "name": "org.eclipse.jst.component.nondependency",
+          "value": ""
         },
         {
           "name": "javadoc_location",
@@ -2103,7 +2103,7 @@
         "type": "jar"
       },
       "javadocUri": "https://cloud.google.com/appengine/docs/java/javadoc/",
-      "export": true,
+      "export": false,
       "fixedVersion": true,
       "pinned": false
     },

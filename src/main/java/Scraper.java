@@ -13,6 +13,8 @@ public class Scraper {
 	public static String url = "";
 	private Airport origen;
 	private Airport destino;
+	private Date fechaIda;
+	private Date fechaVuelta;
 	private String dia_ida;
 	private String mes_ida;
 	private String anio_ida;
@@ -24,38 +26,72 @@ public class Scraper {
 	/*
 	 *  Constructor que monta la URL de los vuelos de solo ida
 	 */
-	public Scraper(String nadultos, Airport origen, Airport destino, String dia_ida,
-			String mes_ida, String anio_ida) {
+	public Scraper(Airport origen, Airport destino, Date fechaIda) {
 		this.origen = origen;
 		this.destino = destino;
-		this.dia_ida = dia_ida;
-		this.mes_ida = mes_ida;
-		this.anio_ida = anio_ida;
+		this.fechaIda = fechaIda;
 		this.triptype = 1;
 		
+		int dia = fechaIda.getDate();
+	    int mes = fechaIda.getMonth() + 1;
+	    int anio = fechaIda.getYear() + 1900;
+	    
+	    String d,m;
+	    if(dia < 10) d = "0" + Integer.toString(dia);
+	    else d = Integer.toString(dia);
+	    
+	    if(mes < 10) m = "0" + Integer.toString(mes);
+	    else m = Integer.toString(mes);
+		
+	    this.dia_ida = d;
+	    this.mes_ida = m;
+	    this.anio_ida = Integer.toString(anio);
+	    
 		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=1&CurrencyCode=EUR&D_City=" + 
-			  origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" 
-			  + anio_ida + mes_ida + "&A_City=" + destino.getCodigo() + "&TripType=1";
+			  origen.getCodigo() + "&D_Day=" + this.dia_ida + "&D_Month=" + this.anio_ida + this.mes_ida + "&A_City=" + 
+			  destino.getCodigo() + "&TripType=1";
 	}
 	
 	/*
 	 *  Constructor que monta la URL de los vuelos de ida y vuelta
 	 */
-	public Scraper(String nadultos, Airport origen, Airport destino, String dia_ida,
-					String mes_ida, String anio_ida, String dia_vuelta, String mes_vuelta, String anio_vuelta) {
+	public Scraper(Airport origen, Airport destino, Date fechaIda, Date fechaVuelta) {
 		this.origen = origen; 
 		this.destino = destino;
-		this.dia_ida = dia_ida;
-		this.mes_ida = mes_ida;
-		this.anio_ida = anio_ida;
-	    this.dia_vuelta = dia_vuelta; 
-		this.mes_vuelta = mes_vuelta;
-		this.anio_vuelta = mes_vuelta;
+		this.fechaIda = fechaIda;
+		this.fechaVuelta = fechaVuelta;
 		this.triptype = 2;
 		
+		int dia = fechaIda.getDate();
+	    int mes = fechaIda.getMonth() + 1;
+	    int anio = fechaIda.getYear() + 1900;
+	    int dia_v = fechaIda.getDate();
+	    int mes_v = fechaIda.getMonth() + 1;
+	    int anio_v = fechaIda.getYear() + 1900;
+	    
+	    String d, dv, m, mv;
+	    if(dia < 10) d = "0" + Integer.toString(dia);
+	    else d = Integer.toString(dia);
+	    
+	    if(mes < 10) m = "0" + Integer.toString(mes);
+	    else m = Integer.toString(mes);
+	    
+	    if(dia_v < 10) dv = "0" + Integer.toString(dia_v);
+	    else dv = Integer.toString(dia_v);
+	    
+	    if(mes_v < 10) mv = "0" + Integer.toString(mes_v);
+	    else mv = Integer.toString(mes_v);
+	    
+	    this.dia_ida = d;
+	    this.mes_ida = m;
+	    this.anio_ida = Integer.toString(anio);
+	    this.dia_vuelta = dv;
+	    this.mes_vuelta = mv;
+	    this.anio_vuelta = Integer.toString(anio_v);
+	    
 		url = "https://www.norwegian.com/es/ipc/availability/avaday?AdultCount=1&CurrencyCode=EUR&D_City=" + 
-			  origen.getCodigo() + "&D_Day=" + dia_ida + "&D_Month=" + anio_ida + mes_ida + "&A_City=" + 
-			  destino.getCodigo() + "&R_Day=" + dia_vuelta + "&R_Month=" + anio_vuelta + mes_vuelta + "&TripType=2";
+			  origen.getCodigo() + "&D_Day=" + this.dia_ida + "&D_Month=" + this.anio_ida + this.mes_ida + "&A_City=" + 
+			  destino.getCodigo() + "&R_Day=" + this.dia_vuelta + "&R_Month=" + this.anio_vuelta + this.mes_vuelta + "&TripType=2";
 	}
 	
 	/*
@@ -115,8 +151,6 @@ public class Scraper {
 			
 			// Viajes de ida o de vuelta
 			for(Element iv: ida_vuelta) {
-				
-				ArrayList<Travel> list = new ArrayList<Travel>();
 
 				if(viajes_encontrados) {
 					viajes_encontrados = false;
@@ -151,7 +185,7 @@ public class Scraper {
 								// Fecha-Hora Salida
 								String hora_salida = filas1.get(i).getElementsByClass("content emphasize").get(0).text();
 								String fecha_salida;
-								if(ida) fecha_salida = mes_ida + "/" + dia_ida + "/" + anio_ida + " " + hora_salida;
+								if(ida) fecha_salida = Integer.toString(fechaIda.getDate()) + "/" + dia_ida + "/" + anio_ida + " " + hora_salida;
 								else fecha_salida = mes_vuelta + "/" + dia_vuelta + "/" + anio_vuelta + " " + hora_salida;
 								Date fechaSalida = new Date(fecha_salida);
 								
@@ -202,22 +236,13 @@ public class Scraper {
 								else f = new Flight(fechaSalida,fechaLlegada,this.destino,this.origen);
 								Travel t = new Travel(f,price,this.url,"Norweigan");
 								if(esc.length() > 0) t.setEscala(esc);
-								list.add(t);
+								
+								// Añado el viaje como resultado
+								if(ida) tr.addTravelIda(t);
+								else tr.addTravelVuelta(t);
 								
 							}
 						}
-					}
-				}
-				
-				// Si hay viajes los añado
-				if(ida) {
-					for(Travel tra : list) {
-						tr.addTravelIda(tra);
-					}
-				}
-				else {
-					for(Travel tra : list) {
-						tr.addTravelVuelta(tra);
 					}
 				}
 				
