@@ -8,6 +8,11 @@ public class Airport {
 		this.pais = pais;
 	}
 	
+	public Airport(String cod, String name) {
+		this.codigo = cod;
+		this.nombre = name;
+	}
+	
 	public Airport() {}
 	
 	public String getCodigo() {
