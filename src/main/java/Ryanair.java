@@ -25,7 +25,7 @@ public class Ryanair {
 	 *			outboundDateTo 		intervalo superior de la fecha de ida
 	 * */
 	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDateFrom, Date outboundDateTo) {
-		this.apiSource = "http://apigateway.ryanair.com/pub/v1/farefinder/3/oneWayFares";		
+		this.apiSource = "https://api.ryanair.com/farefinder/3/oneWayFares";		
 		this.IdayVuelta = false;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
@@ -46,12 +46,14 @@ public class Ryanair {
 	 *			inboundDateTo		intervalo superior de la fecha de vuelta
 	 * */
 	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDateFrom, Date outboundDateTo, Date inboundDateFrom, Date inboundDateTo) {
-		this.apiSource = "http://apigateway.ryanair.com/pub/v1/farefinder/3/roundTripFares";		
+		this.apiSource = "https://api.ryanair.com/farefinder/3/roundTripFares";		
 		this.IdayVuelta = true;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.outboundDateFrom = outboundDateFrom;
 		this.outboundDateTo = outboundDateTo;
+		this.inboundDateFrom = inboundDateFrom;
+		this.inboundDateTo = inboundDateTo;
 		this.language = "es";
 		this. market = "es-es";
 	}
@@ -88,8 +90,14 @@ public class Ryanair {
 		int year = date.getYear() + 1900;
 		int month = date.getMonth() + 1;
 		int day = date.getDate();
+		String mes, dia;
+		if(month < 10) mes = "0" + Integer.toString(month);
+		else mes = Integer.toString(month);
 		
-		return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+		if(day < 10) dia = "0" + Integer.toString(day);
+		else dia = Integer.toString(day);
+		
+		return Integer.toString(year) + "-" + mes + "-" + dia;
 	}
 	
 	/*
@@ -168,17 +176,22 @@ public class Ryanair {
 	private Travel getTravel(JSONObject obj) {
 		Date fechaSalida, fechaLlegada;
 		String codAirOrigen, codAirDestino, nameOrigen, countryNameOrigen, nameDestino, countryNameDestino, aux;
-		String[] auxdate;
+		String[] auxdate, auxtime, auxdate2;
 		float precio = 0;
+		double price;
 		
 		JSONObject pointer = (JSONObject) obj.get("arrivalAirport");
 		codAirDestino = (String) pointer.get("iataCode");
-		aux = (String) pointer.get("departureDate");
+		aux = (String) obj.get("departureDate");
 		auxdate = aux.split("T");
-		fechaSalida = new Date(auxdate[0]+" "+auxdate[1]);
-		aux = (String) pointer.get("arrivaleDate");
+		auxdate2 = auxdate[0].split("-");
+		auxtime = auxdate[1].split(":");
+		fechaSalida = new Date(auxdate2[0]+"/"+auxdate2[1]+"/"+auxdate2[2]+" "+auxtime[0]+":"+auxtime[1]);
+		aux = (String) obj.get("arrivalDate");
 		auxdate = aux.split("T");
-		fechaLlegada = new Date(auxdate[0]+" "+auxdate[1]);
+		auxdate2 = auxdate[0].split("-");
+		auxtime = auxdate[1].split(":");
+		fechaLlegada = new Date(auxdate2[0]+"/"+auxdate2[1]+"/"+auxdate2[2]+" "+auxtime[0]+":"+auxtime[1]);
 		nameDestino = (String) pointer.get("name");
 		countryNameDestino = (String) pointer.get("countryName");
 		
@@ -188,7 +201,8 @@ public class Ryanair {
 		countryNameOrigen = (String) pointer.get("countryName");
 		
 		pointer = (JSONObject) obj.get("price");
-		precio = (float) pointer.get("value");
+		price = (double) pointer.get("value");
+		precio = (float) price;
 		
 		Airport origen = new Airport(codAirOrigen, nameOrigen, countryNameOrigen);
 		Airport destino = new Airport(codAirDestino, nameDestino, countryNameDestino);
@@ -239,6 +253,8 @@ public class Ryanair {
 			tr = searchIdayVuelta();
 		else 
 			tr = searchIda();
+
+		System.out.println(this.url.toString());
 		
 		return tr;
 	}

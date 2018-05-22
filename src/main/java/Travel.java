@@ -147,4 +147,11 @@ public class Travel {
 		return this.precio;
 	}
 
+	public Airport getAirportOrigen() {
+		return this.origen;
+	}
+	
+	public Airport getAirportDestino() {
+		return this.destino;
+	}
 }
