@@ -24,13 +24,13 @@ public class Ryanair {
 	 *			outboundDateFrom	intervalo inferior de la fecha de ida
 	 *			outboundDateTo 		intervalo superior de la fecha de ida
 	 * */
-	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDateFrom, Date outboundDateTo) {
+	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDate) {
 		this.apiSource = "https://api.ryanair.com/farefinder/3/oneWayFares";		
 		this.IdayVuelta = false;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
-		this.outboundDateFrom = outboundDateFrom;
-		this.outboundDateTo = outboundDateTo;
+		this.outboundDateFrom = outboundDate;
+		this.outboundDateTo = outboundDate;
 		this.language = "es";
 		this. market = "es-es";
 	}
@@ -41,19 +41,17 @@ public class Ryanair {
 	 * @args	departureAirport 	código IATA del aeropuerto de salida
 	 *			arrivalAirport		código IATA del aeropuerto de llegada
 	 *			outboundDateFrom	intervalo inferior de la fecha de ida
-	 *			outboundDateTo 		intervalo superior de la fecha de ida
 	 *			inboundDateFrom		intervalo inferior de la fecha de vuelta
-	 *			inboundDateTo		intervalo superior de la fecha de vuelta
 	 * */
-	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDateFrom, Date outboundDateTo, Date inboundDateFrom, Date inboundDateTo) {
+	public Ryanair(String departureAirport, String arrivalAirport, Date outboundDate, Date inboundDate) {
 		this.apiSource = "https://api.ryanair.com/farefinder/3/roundTripFares";		
 		this.IdayVuelta = true;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
-		this.outboundDateFrom = outboundDateFrom;
-		this.outboundDateTo = outboundDateTo;
-		this.inboundDateFrom = inboundDateFrom;
-		this.inboundDateTo = inboundDateTo;
+		this.outboundDateFrom = outboundDate;
+		this.outboundDateTo = outboundDate;
+		this.inboundDateFrom = inboundDate;
+		this.inboundDateTo = inboundDate;
 		this.language = "es";
 		this. market = "es-es";
 	}
