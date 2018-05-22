@@ -48,7 +48,7 @@
 	 			
 	 			<br>
 	 			
-	 			<form action=\"<c:out value="${viaje.url}" />\">
+	 			<form action="${viaje.url}">
 	 				<input type="submit" class="boton" value="Reservar" />
 	 			</form>
  			</article>
@@ -85,7 +85,7 @@
 	 			
 	 			<br>
 	 			
-	 			<form action=\"<c:out value="${viaje.url}" />\">
+	 			<form action="${viaje.url}">
 	 				<input type="submit" class="boton" value="Reservar" />
 	 			</form>
  			</article>
