@@ -9,16 +9,20 @@ import org.json.simple.parser.ParseException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
-import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
 
 public class StoreAirports {
 	private String source;
 	private URL url;
 	ArrayList<Airport> airports;
+	DatastoreService datastore;
 	
 	public StoreAirports() {
 		airports = new ArrayList<Airport>();
 		source = "https://iatacodes.org/api/v6/airports?api_key=fa186435-fbe2-41ff-aaad-ee2f8c923c67";
+		datastore = DatastoreServiceFactory.getDatastoreService();
 		try {
 			url = new URL(source);
 		} catch (MalformedURLException e) {
@@ -93,7 +97,11 @@ public class StoreAirports {
 		airport.setProperty("code", a.getCodigo());
 		airport.setProperty("name", a.getNombre());
 		
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		datastore.put(airport);
+	}
+	
+	public ArrayList<Airport> getAirports(){
+		this.parseAirports();
+		return this.airports;
 	}
 }

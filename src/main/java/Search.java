@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 @WebServlet(
     name = "Search",
@@ -21,52 +18,31 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 public class Search extends HttpServlet {
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) 
+  public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
           
     String [] origen = request.getParameterValues("origen");
     String [] destino = request.getParameterValues("destino");
     String [] fecha_ida = request.getParameterValues("fechaida");
-    String [] fecha_vuelta = request.getParameterValues("fecha_vuelta");
+    String [] fecha_vuelta = request.getParameterValues("fechavuelta");
+   
     
     if(origen.length > 0 && destino.length > 0 && fecha_ida.length > 0) {
 	    // Me dan el origen del aeropuerto
-	    // LLamo al data store
-    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	    Airport orig;
-    	
-    	String codeOrigen;
-    	String[] aux = origen[0].split("[\\(\\)]");
-    	if(aux.length >= 2) codeOrigen = aux[1];
-    	else codeOrigen = origen[0];
-	    Query q = new Query("Person").setFilter(new FilterPredicate("code", FilterOperator.EQUAL, codeOrigen));
-	    
-	    PreparedQuery pq = datastore.prepare(q);
-	    Entity result = pq.asSingleEntity();
-	    orig = new Airport((String) result.getProperty("code"), (String) result.getProperty("name"));
+	    Airport orig = new Airport(origen[0],"");
+	    String[] aux = fecha_ida[0].split("-");
+	    Date fechaIda = new Date(aux[0]+"/"+aux[1]+"/"+aux[2]);
 	    
 	    // Me dan el destino del aeropuerto
-	    // LLamo al data store
-	    Airport dest;
-	    
-	    String codeDestino;
-    	aux = destino[0].split("[\\(\\)]");
-    	if(aux.length >= 2) codeDestino = aux[1];
-    	else codeDestino = origen[0];
-	    q = new Query("Person").setFilter(new FilterPredicate("code", FilterOperator.EQUAL, codeDestino));
-	    
-	    pq = datastore.prepare(q);
-	    result = pq.asSingleEntity();
-	    dest = new Airport((String) result.getProperty("code"), (String) result.getProperty("name"));
-	    // Fecha ida
-	    Date fechaIda = new Date(fecha_ida[0]);
-	    
+	    Airport dest = new Airport(destino[0],"");
+	   	    
 	    
 	    // Hago un scraping a la web de Norweigan y a la API de Ryanair
 	    Scraper s;
 	    Ryanair r;
-	    if(fecha_vuelta.length > 0) {
-	    	Date fechaVuelta = new Date(fecha_vuelta[0]);
+	    if(fecha_vuelta[0] != "") {
+		    aux = fecha_vuelta[0].split("-");
+		    Date fechaVuelta = new Date(aux[0]+"/"+aux[1]+"/"+aux[2]);
 	    	s = new Scraper(orig,dest,fechaIda,fechaVuelta);
 	    	r = new Ryanair(orig.getCodigo(),dest.getCodigo(),fechaIda,fechaVuelta);
 	    }
@@ -80,7 +56,7 @@ public class Search extends HttpServlet {
 	    tr2 = r.search();
 	    
 	    tr1.Merge(tr2);
-	    
+	    /*
 	    // Ordeno los viajes de ida por precio 
 	    Collections.sort(tr1.getTravelsIda(), new Comparator<Travel>() {
 			@Override
@@ -95,7 +71,7 @@ public class Search extends HttpServlet {
 		    public int compare(Travel t1, Travel t2) {
 		        return Float.compare(t1.getPrecio(), t2.getPrecio());
 		    }
-		});
+		});*/
 	    
 	    if(tr1 != null && !tr1.equals(null) ) {
 	    	request.setAttribute("travelResult",tr1);

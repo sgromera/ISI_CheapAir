@@ -25,7 +25,7 @@
  			<h4>Viajes de ida:</h4>
  		<c:forEach var="viaje" items="${viajeida}">
  			<article class="viaje">
- 				<c:forEach var=vuelo items="${viaje.vuelos}">
+ 				<c:forEach var="vuelo" items="${viaje.vuelos}">
 	 				<p><c:out value="${viaje.fechasalida.date}" />/<c:out value="${viaje.fechasalida.month + 1}" />/<c:out value="${viaje.fechasalida.year + 1900}" />  
 	 				<c:out value="${viaje.fechasalida.hours}" />:<c:out value="${viaje.fechasalida.minutes}" /> <c:out value="${vuelo.origen.nombre}" /> - <c:out value="${vuelo.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechallegada.date}" />/<c:out value="${viaje.fechallegada.month + 1}" />/<c:out value="${viaje.fechallegada.year + 1900}" />  
@@ -62,7 +62,7 @@
  			<h4>Viajes de vuelta:</h4>
  		<c:forEach var="viaje" items="${viajevuelta}">
  			<article class="viaje">
- 				<c:forEach var=vuelo items="${viaje.vuelos}">
+ 				<c:forEach var="vuelo" items="${viaje.vuelos}">
 	 				<p><c:out value="${viaje.fechasalida.date}" />/<c:out value="${viaje.fechasalida.month + 1}" />/<c:out value="${viaje.fechasalida.year + 1900}" />  
 	 				<c:out value="${viaje.fechasalida.hours}" />:<c:out value="${viaje.fechasalida.minutes}" /> <c:out value="${vuelo.origen.nombre}" /> - <c:out value="${vuelo.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechallegada.date}" />/<c:out value="${viaje.fechallegada.month + 1}" />/<c:out value="${viaje.fechallegada.year + 1900}" />  
