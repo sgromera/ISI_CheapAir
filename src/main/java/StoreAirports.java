@@ -9,18 +9,7 @@ import org.json.simple.parser.ParseException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.appengine.api.datastore.*;
 
 public class StoreAirports {
 	private String source;
@@ -100,7 +89,8 @@ public class StoreAirports {
 	 * 
 	 * */
 	private void store(Airport a) {
-		Entity airport = new Entity("Airport", a.getCodigo());
+		Entity airport = new Entity("Airport");
+		airport.setProperty("code", a.getCodigo());
 		airport.setProperty("name", a.getNombre());
 		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
