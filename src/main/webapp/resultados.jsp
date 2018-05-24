@@ -21,9 +21,12 @@
  
  	<!-- Viajes de ida -->
  	<section>
- 	<h4>Viajes de ida:</h4>
+ 	<c:if test="${travelResult.travelsIda.size() > 0}">
+ 	 <h4>Viajes de ida:</h4>
+ 	</c:if> 
+ 	
  	<c:forEach var="viaje" items="${travelResult.travelsIda}">
- 			<article class="viaje">
+ 			<article>
 	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
 	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  
@@ -54,9 +57,12 @@
  	
  	<!-- Viajes de vuelta -->
  	<section>
- 	<h4>Viajes de vuelta:</h4>
+ 	<c:if test="${travelResult.travelsVuelta.size() > 0}">
+ 	 <h4>Viajes de vuelta:</h4>
+ 	</c:if> 
+ 	
  	<c:forEach var="viaje" items="${travelResult.travelsVuelta}">
- 			<article class="viaje">
+ 			<article>
 	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
 	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  

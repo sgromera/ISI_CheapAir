@@ -57,26 +57,12 @@ public class Search extends HttpServlet {
 	    tr2 = r.search();
 	    
 	    tr1.Merge(tr2);
-	    /*
-	    // Ordeno los viajes de ida por precio 
-	    Collections.sort(tr1.getTravelsIda(), new Comparator<Travel>() {
-			@Override
-		    public int compare(Travel t1, Travel t2) {
-		        return Float.compare(t1.getPrecio(), t2.getPrecio());
-		    }
-		});
-	    
-	    // Ordeno los viajes de vuelta por precio 
-	    Collections.sort(tr1.getTravelsVuelta(), new Comparator<Travel>() {
-			@Override
-		    public int compare(Travel t1, Travel t2) {
-		        return Float.compare(t1.getPrecio(), t2.getPrecio());
-		    }
-		});*/
+	    tr1.sortByPrice();
 	    
 	    if(tr1 != null && !tr1.equals(null) ) {
 	    	request.setAttribute("travelResult",tr1);
-
+	    	request.setCharacterEncoding("UTF-8");
+	    	
 	    	RequestDispatcher rd = request.getRequestDispatcher("/resultados.jsp");
 
 	    	rd.forward(request, response);

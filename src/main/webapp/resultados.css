@@ -11,7 +11,7 @@ header h1 {color:lightgreen; text-align:center;}
 
 #result {color:yellow;}
 
-
+article {background-color:gray; border-style:solid; padding:1%; margin-bottom:2%;}
 
 footer {margin-top:5%; color:darkorange; font-size:120%;}
 

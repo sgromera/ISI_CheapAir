@@ -110,12 +110,13 @@ public class Scraper {
 	    Response response = null;
 		
 	    try {
-		response = Jsoup.connect(this.url).userAgent("").timeout(10000000).ignoreHttpErrors(true).execute();
+		response = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).ignoreHttpErrors(true).execute();
 	    } catch (IOException ex) {
-		System.out.println("Excepciï¿½n al obtener el Status Code: " + ex.getMessage());
+		System.out.println("Excepción al obtener el Status Code: " + ex.getMessage());
 	    }
-	    if(response == null) return 404;
-	    else return response.statusCode();
+	    /*if(response == null) return 404;
+	    else return response.statusCode();*/
+	    return response.statusCode();
 	}
 	
 	
@@ -126,9 +127,9 @@ public class Scraper {
 
 	    Document doc = null;
 		try {
-		    doc = Jsoup.connect(this.url).userAgent("").timeout(10000000).get();
+		    doc = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).get();
 		    } catch (IOException ex) {
-			System.out.println("Excepciï¿½n al obtener el HTML de la pÃ¡gina" + ex.getMessage());
+			System.out.println("Excepción al obtener el HTML de la página" + ex.getMessage());
 		    }
 	    return doc;
 	}
@@ -141,9 +142,11 @@ public class Scraper {
 
 		TravelResult tr = new TravelResult();
 		
-		if(getStatusConnectionCode() == 200){
+		if(true /*getStatusConnectionCode() == 200*/){
 			
-			Document doc = getHtmlDocument();
+			//Document doc = getHtmlDocument();
+			Document doc = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).get();
+			if(doc == null) return tr;
 			
 			Elements ida_vuelta = doc.getElementsByClass("avadaytable");
 			
@@ -238,7 +241,7 @@ public class Scraper {
 								Travel t = new Travel(f,price,this.url,"Norweigan");
 								if(esc.length() > 0) t.setEscala(esc);
 								
-								// Aï¿½ado el viaje como resultado
+								// Añado el viaje como resultado
 								if(ida) tr.addTravelIda(t);
 								else tr.addTravelVuelta(t);
 								
