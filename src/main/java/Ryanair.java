@@ -206,7 +206,7 @@ public class Ryanair {
 		Airport destino = new Airport(codAirDestino, nameDestino, countryNameDestino);
 		Flight f = new Flight(fechaSalida, fechaLlegada, origen, destino);
 		
-		Travel t = new Travel(f, precio, "www.ryanair.com", "Ryanair");
+		Travel t = new Travel(f, precio, "https://www.ryanair.com", "Ryanair");
 		
 		return t;
 	}

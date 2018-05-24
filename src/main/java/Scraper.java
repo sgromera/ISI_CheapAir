@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Scraper {
-	public static String url = "";
+	private String url;
 	private Airport origen;
 	private Airport destino;
 	private Date fechaIda;
@@ -105,27 +105,28 @@ public class Scraper {
  	 * 		404 Not Found		500 Internal Server Error
  	 * 		502 Bad Gateway		503 Service Unavailable
 	 * */
-	public static int getStatusConnectionCode() {
+	public int getStatusConnectionCode() {
 		
 	    Response response = null;
 		
 	    try {
-		response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(10000000).ignoreHttpErrors(true).execute();
+		response = Jsoup.connect(this.url).userAgent("").timeout(10000000).ignoreHttpErrors(true).execute();
 	    } catch (IOException ex) {
 		System.out.println("Excepci�n al obtener el Status Code: " + ex.getMessage());
 	    }
-	    return response.statusCode();
+	    if(response == null) return 404;
+	    else return response.statusCode();
 	}
 	
 	
 	/*
 	 *	Esta funci�n nos da el documento HTML de la p�gina que pasamos como argumento 
 	 * */
-	public static Document getHtmlDocument() {
+	public Document getHtmlDocument() {
 
 	    Document doc = null;
 		try {
-		    doc = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(10000000).get();
+		    doc = Jsoup.connect(this.url).userAgent("").timeout(10000000).get();
 		    } catch (IOException ex) {
 			System.out.println("Excepci�n al obtener el HTML de la página" + ex.getMessage());
 		    }

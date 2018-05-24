@@ -40,7 +40,7 @@ public class Search extends HttpServlet {
 	    // Hago un scraping a la web de Norweigan y a la API de Ryanair
 	    Scraper s;
 	    Ryanair r;
-	    if(fecha_vuelta[0] != "") {
+	    if(!fecha_vuelta[0].isEmpty()) {
 		    aux = fecha_vuelta[0].split("-");
 		    Date fechaVuelta = new Date(aux[0]+"/"+aux[1]+"/"+aux[2]);
 	    	s = new Scraper(orig,dest,fechaIda,fechaVuelta);
@@ -51,7 +51,8 @@ public class Search extends HttpServlet {
 	    	r = new Ryanair(orig.getCodigo(),dest.getCodigo(),fechaIda);
 	    }
 	    
-	    TravelResult tr1,tr2;
+	    TravelResult tr1, tr2;
+	    
 	    tr1 = s.scrap();
 	    tr2 = r.search();
 	    

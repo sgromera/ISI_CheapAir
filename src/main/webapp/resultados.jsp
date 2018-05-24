@@ -20,17 +20,14 @@
  	</h3>
  
  	<!-- Viajes de ida -->
- 	<c:forEach var="viajeida" items="${tr.travelsida}">
- 		<section>
- 			<h4>Viajes de ida:</h4>
- 		<c:forEach var="viaje" items="${viajeida}">
+ 	<section>
+ 	<h4>Viajes de ida:</h4>
+ 	<c:forEach var="viaje" items="${travelResult.travelsIda}">
  			<article class="viaje">
- 				<c:forEach var="vuelo" items="${viaje.vuelos}">
-	 				<p><c:out value="${viaje.fechasalida.date}" />/<c:out value="${viaje.fechasalida.month + 1}" />/<c:out value="${viaje.fechasalida.year + 1900}" />  
-	 				<c:out value="${viaje.fechasalida.hours}" />:<c:out value="${viaje.fechasalida.minutes}" /> <c:out value="${vuelo.origen.nombre}" /> - <c:out value="${vuelo.destino.nombre}" /> 
-	 				<c:out value="${viaje.fechallegada.date}" />/<c:out value="${viaje.fechallegada.month + 1}" />/<c:out value="${viaje.fechallegada.year + 1900}" />  
-	 				<c:out value="${viaje.fechallegada.hours}" />:<c:out value="${viaje.fechallegada.minutes}" /></p>
-	 			</c:forEach>
+	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
+	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
+	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  
+	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:out value="${viaje.fechaLlegada.minutes}" /></p>
 	 			
 	 			<br>
 	 			
@@ -52,22 +49,18 @@
 	 				<input type="submit" class="boton" value="Reservar" />
 	 			</form>
  			</article>
- 		</c:forEach>
- 		</section>
  	</c:forEach>
+ 	</section>
  	
  	<!-- Viajes de vuelta -->
- 	<c:forEach var="viajevuelta" items="${tr.travelsvuelta}">
- 		<section>
- 			<h4>Viajes de vuelta:</h4>
- 		<c:forEach var="viaje" items="${viajevuelta}">
+ 	<section>
+ 	<h4>Viajes de vuelta:</h4>
+ 	<c:forEach var="viaje" items="${travelResult.travelsVuelta}">
  			<article class="viaje">
- 				<c:forEach var="vuelo" items="${viaje.vuelos}">
-	 				<p><c:out value="${viaje.fechasalida.date}" />/<c:out value="${viaje.fechasalida.month + 1}" />/<c:out value="${viaje.fechasalida.year + 1900}" />  
-	 				<c:out value="${viaje.fechasalida.hours}" />:<c:out value="${viaje.fechasalida.minutes}" /> <c:out value="${vuelo.origen.nombre}" /> - <c:out value="${vuelo.destino.nombre}" /> 
-	 				<c:out value="${viaje.fechallegada.date}" />/<c:out value="${viaje.fechallegada.month + 1}" />/<c:out value="${viaje.fechallegada.year + 1900}" />  
-	 				<c:out value="${viaje.fechallegada.hours}" />:<c:out value="${viaje.fechallegada.minutes}" /></p>
-	 			</c:forEach>
+	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
+	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
+	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  
+	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:out value="${viaje.fechaLlegada.minutes}" /></p>
 	 			
 	 			<br>
 	 			
@@ -89,9 +82,8 @@
 	 				<input type="submit" class="boton" value="Reservar" />
 	 			</form>
  			</article>
- 		</c:forEach>
- 		</section>
  	</c:forEach>
+ 	</section>
  	
  	<!-- Pie de página con nuestros nombres -->
  	<footer>
