@@ -146,7 +146,7 @@ public class Scraper {
 			//Document doc = getHtmlDocument();
 			Document doc;
 			try {
-				doc = Jsoup.connect(this.url).userAgent("").timeout(100000).get();
+				doc = Jsoup.connect(this.url).userAgent("Mozilla").timeout(100000).get();
 			} catch (IOException e) {
 				e.printStackTrace();
 				return tr;
