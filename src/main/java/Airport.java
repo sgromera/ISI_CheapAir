@@ -15,6 +15,10 @@ public class Airport {
 	
 	public Airport() {}
 	
+	public void setNombre(String name) {
+		this.nombre = name;
+	}
+	
 	public String getCodigo() {
 		return this.codigo;
 	}

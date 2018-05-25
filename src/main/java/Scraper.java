@@ -95,7 +95,7 @@ public class Scraper {
 	}
 	
 	/*
-	 * 		Esta funci�n devuelve el c�digo de estado de la petici�n que enviamos a la p�gina web
+	 * 		Esta función devuelve el código de estado de la petición que enviamos a la página web
 	 * 
 	 * 		Status:
 	 *  
@@ -110,18 +110,17 @@ public class Scraper {
 	    Response response = null;
 		
 	    try {
-		response = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).ignoreHttpErrors(true).execute();
+		response = Jsoup.connect(this.url).userAgent("").timeout(10000000).ignoreHttpErrors(true).execute();
 	    } catch (IOException ex) {
-		System.out.println("Excepci�n al obtener el Status Code: " + ex.getMessage());
+		System.out.println("Excepción al obtener el Status Code: " + ex.getMessage());
 	    }
-	    /*if(response == null) return 404;
-	    else return response.statusCode();*/
+	    if(response == null) return 401;
 	    return response.statusCode();
 	}
 	
 	
 	/*
-	 *	Esta funci�n nos da el documento HTML de la p�gina que pasamos como argumento 
+	 *	Esta función nos da el documento HTML de la página que pasamos como argumento 
 	 * */
 	public Document getHtmlDocument() {
 
@@ -129,24 +128,29 @@ public class Scraper {
 		try {
 		    doc = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).get();
 		    } catch (IOException ex) {
-			System.out.println("Excepci�n al obtener el HTML de la p�gina" + ex.getMessage());
+			System.out.println("Excepci�n al obtener el HTML de la p�gina" + ex.getMessage());
 		    }
 	    return doc;
 	}
 	
 	/*
-	 *	Esta funci�n hace web scraping a la p�gina web de la compa�ia de aviones Norweigan y a�ade los viajes
+	 *	Esta función hace web scraping a la página web de la compañía de aviones Norweigan y añade los viajes
 	 *  al objeto TravelResult 
 	 * */
-	public TravelResult scrap() throws IOException {
+	public TravelResult scrap() {
 
 		TravelResult tr = new TravelResult();
 		
-		if(true /*getStatusConnectionCode() == 200*/){
+		if(getStatusConnectionCode() == 200){
 			
 			//Document doc = getHtmlDocument();
-			Document doc = Jsoup.connect(this.url).userAgent("Mozilla").timeout(10000000).get();
-			if(doc == null) return tr;
+			Document doc;
+			try {
+				doc = Jsoup.connect(this.url).userAgent("").timeout(100000).get();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return tr;
+			}
 			
 			Elements ida_vuelta = doc.getElementsByClass("avadaytable");
 			
@@ -189,7 +193,7 @@ public class Scraper {
 								// Fecha-Hora Salida
 								String hora_salida = filas1.get(i).getElementsByClass("content emphasize").get(0).text();
 								String fecha_salida;
-								if(ida) fecha_salida = Integer.toString(fechaIda.getDate()) + "/" + dia_ida + "/" + anio_ida + " " + hora_salida;
+								if(ida) fecha_salida = mes_ida + "/" + dia_ida + "/" + anio_ida + " " + hora_salida;
 								else fecha_salida = mes_vuelta + "/" + dia_vuelta + "/" + anio_vuelta + " " + hora_salida;
 								Date fechaSalida = new Date(fecha_salida);
 								
@@ -235,13 +239,15 @@ public class Scraper {
 									vuelos_escala++;
 								}
 								
+								this.origen.setNombre(ciudad_origen);
+								this.destino.setNombre(ciudad_destino);
 								Flight f;
 								if(ida) f = new Flight(fechaSalida,fechaLlegada,this.origen,this.destino);
 								else f = new Flight(fechaSalida,fechaLlegada,this.destino,this.origen);
-								Travel t = new Travel(f,price,this.url,"Norweigan");
-								if(esc.length() > 0) t.setEscala(esc);
+								Travel t = new Travel(f,price,this.url,"Norwegian");
+								t.setEscala(esc);
 								
-								// A�ado el viaje como resultado
+								// A�ado el viaje como resultado
 								if(ida) tr.addTravelIda(t);
 								else tr.addTravelVuelta(t);
 								

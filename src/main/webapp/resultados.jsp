@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -18,7 +19,14 @@
  	<h3 id="result">
  		Resultados de vuelos
  	</h3>
- 
+ 	
+ 	<!-- Si no hay viajes ni de ida ni de vuelta -->
+ 	<c:if test="${travelResult.travelsIda.size() == 0}">
+ 		<c:if test="${travelResult.travelsVuelta.size() == 0}">
+ 			<h4>Lo sentimos, no se han encontrado resultados</h4>
+ 		</c:if>
+ 	</c:if> 
+ 	
  	<!-- Viajes de ida -->
  	<section>
  	<c:if test="${travelResult.travelsIda.size() > 0}">
@@ -28,9 +36,9 @@
  	<c:forEach var="viaje" items="${travelResult.travelsIda}">
  			<article>
 	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
-	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
+	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:choose><c:when test="${viaje.fechaSalida.minutes < 10}">0<c:out value="${viaje.fechaSalida.minutes}" /></c:when><c:otherwise><c:out value="${viaje.fechaSalida.minutes}" /></c:otherwise></c:choose> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  
-	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:out value="${viaje.fechaLlegada.minutes}" /></p>
+	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:choose><c:when test="${viaje.fechaLlegada.minutes < 10}">0<c:out value="${viaje.fechaLlegada.minutes}" /></c:when><c:otherwise><c:out value="${viaje.fechaLlegada.minutes}" /></c:otherwise></c:choose></p>
 	 			
 	 			<br>
 	 			
@@ -40,7 +48,7 @@
 	 			
 	 			<br>
 	 			
-	 			<p>Duración: <c:out value="${viaje.escala}" /> </p>
+	 			<p>Duración: <c:out value="${viaje.duracion}" /> </p>
 	 			
 	 			<br>
 	 			
@@ -64,9 +72,9 @@
  	<c:forEach var="viaje" items="${travelResult.travelsVuelta}">
  			<article>
 	 				<p><c:out value="${viaje.fechaSalida.date}" />/<c:out value="${viaje.fechaSalida.month + 1}" />/<c:out value="${viaje.fechaSalida.year + 1900}" />  
-	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:out value="${viaje.fechaSalida.minutes}" /> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
+	 				<c:out value="${viaje.fechaSalida.hours}" />:<c:choose><c:when test="${viaje.fechaSalida.minutes < 10}">0<c:out value="${viaje.fechaSalida.minutes}" /></c:when><c:otherwise><c:out value="${viaje.fechaSalida.minutes}" /></c:otherwise></c:choose> <c:out value="${viaje.origen.nombre}" /> - <c:out value="${viaje.destino.nombre}" /> 
 	 				<c:out value="${viaje.fechaLlegada.date}" />/<c:out value="${viaje.fechaLlegada.month + 1}" />/<c:out value="${viaje.fechaLlegada.year + 1900}" />  
-	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:out value="${viaje.fechaLlegada.minutes}" /></p>
+	 				<c:out value="${viaje.fechaLlegada.hours}" />:<c:choose><c:when test="${viaje.fechaLlegada.minutes < 10}">0<c:out value="${viaje.fechaLlegada.minutes}" /></c:when><c:otherwise><c:out value="${viaje.fechaLlegada.minutes}" /></c:otherwise></c:choose></p>
 	 			
 	 			<br>
 	 			
@@ -76,7 +84,7 @@
 	 			
 	 			<br>
 	 			
-	 			<p>Duración: <c:out value="${viaje.escala}" /> </p>
+	 			<p>Duración: <c:out value="${viaje.duracion}" /> </p>
 	 			
 	 			<br>
 	 			

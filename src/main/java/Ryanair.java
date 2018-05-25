@@ -207,6 +207,7 @@ public class Ryanair {
 		Flight f = new Flight(fechaSalida, fechaLlegada, origen, destino);
 		
 		Travel t = new Travel(f, precio, "https://www.ryanair.com", "Ryanair");
+		t.setEscala("");
 		
 		return t;
 	}
@@ -252,7 +253,6 @@ public class Ryanair {
 		else 
 			tr = searchIda();
 
-		System.out.println(this.url.toString());
 		
 		return tr;
 	}
